@@ -334,7 +334,7 @@
             margin-bottom: 200px; /* Margin barano holo jate niche onekta neme jay */
         }
 
-        /* অফিশিয়াল ট্রানজ্যাকশন স্টেটমেন্ট কার্ড কন্টেইনার - Centered Text layout ফিক্স */
+        /* অফিশিয়াল ট্রানজ্যাকশন স্টেটমেন্ট কার্ড কন্টেইনার - Centered Text layout ফিক্স */
         .official-delivery-statement {
             background-color: #F0FDF4;
             border: 1px solid #BBF7D0;
@@ -760,7 +760,7 @@
             });
         }
 
-        // 🏆 নিখুঁত ডুপ্লিকেট-ফ্রি এবং আল্ট্রা-কম্প্রেসড ২-পেজ পিডিএফ ইঞ্জিন ফিক্স (CORS & Layout Sync)
+        // 🏆 সংশোধিত সেন্টারড মার্জিন PDF ইঞ্জিন (Fixed Left Alignment Issue)
         function exportReceiptAsPDF() {
             const captureArea = document.getElementById('receiptCaptureArea');
             const customerName = document.getElementById('lblCustomerName').innerText;
@@ -789,16 +789,18 @@
                 const pdfWidth = 210; 
                 const pdfHeight = 297; 
                 
-                const imgWidth = pdfWidth - 10; 
+                // ইমেজ উইডথ নির্ধারণ করা হলো জাতে দুই সাইডে সমান মার্জিন থাকে
+                const imgWidth = 190; 
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
                 
-                const marginLeft = 5;
+                // পারফেক্ট হরিজন্টাল সেন্টারড মার্জিন লজিক (Left = (210 - 190) / 2 = 10mm)
+                const marginLeft = (pdfWidth - imgWidth) / 2;
+                const marginTop = 8;
                 
-                if (imgHeight <= pdfHeight) {
-                    pdf.addImage(imgData, 'JPEG', marginLeft, 5, imgWidth, imgHeight, undefined, 'FAST');
+                if (imgHeight <= (pdfHeight - 16)) {
+                    pdf.addImage(imgData, 'JPEG', marginLeft, marginTop, imgWidth, imgHeight, undefined, 'FAST');
                 } else {
-                    // গিটহাবের সার্ভারে ডুপ্লিকেট ও কাট-অফ রোধ করার নিখুঁত ২-পেজ মেকানিজম
-                    const pageCanvasHeight = (canvas.width * (pdfHeight - 10)) / imgWidth;
+                    const pageCanvasHeight = (canvas.width * (pdfHeight - 16)) / imgWidth;
                     
                     // ১ম পেজ ক্রপ ও প্রিন্ট লজিক
                     const canvas1 = document.createElement('canvas');
@@ -807,9 +809,9 @@
                     const ctx1 = canvas1.getContext('2d');
                     ctx1.drawImage(canvas, 0, 0, canvas.width, pageCanvasHeight, 0, 0, canvas.width, pageCanvasHeight);
                     const imgData1 = canvas1.toDataURL('image/jpeg', 0.85);
-                    pdf.addImage(imgData1, 'JPEG', marginLeft, 5, imgWidth, pdfHeight - 10, undefined, 'FAST');
+                    pdf.addImage(imgData1, 'JPEG', marginLeft, marginTop, imgWidth, pdfHeight - 16, undefined, 'FAST');
                     
-                    // ২য় পেজ ক্রপ ও প্রিন্ট লজিক (বিন্দুমাত্র ডুপ্লিকেট হবে না)
+                    // ২য় পেজ ক্রপ ও প্রিন্ট লজিক
                     pdf.addPage();
                     const canvas2 = document.createElement('canvas');
                     canvas2.width = canvas.width;
@@ -818,7 +820,7 @@
                     ctx2.drawImage(canvas, 0, pageCanvasHeight, canvas.width, canvas.height - pageCanvasHeight, 0, 0, canvas.width, canvas.height - pageCanvasHeight);
                     const imgData2 = canvas2.toDataURL('image/jpeg', 0.85);
                     const imgHeight2 = ((canvas.height - pageCanvasHeight) * imgWidth) / canvas.width;
-                    pdf.addImage(imgData2, 'JPEG', marginLeft, 5, imgWidth, imgHeight2, undefined, 'FAST');
+                    pdf.addImage(imgData2, 'JPEG', marginLeft, marginTop, imgWidth, imgHeight2, undefined, 'FAST');
                 }
                 
                 pdf.save(`English_Spur_Receipt_${customerName.replace(/\s+/g, '_')}.pdf`);
