@@ -196,7 +196,7 @@
             gap: 6px;
         }
 
-        /* হেডার সেকশন স্পেসিং টিউনিং */
+        /* হেডার সেকশন */
         .receipt-header {
             text-align: center;
             border-bottom: 3px solid var(--logo-orange);
@@ -204,7 +204,6 @@
             margin-bottom: 15px;
         }
 
-        /* লোগো সাইজ এবং অতিরিক্ত গ্যাপ রিমুভাল ফিক্স */
         .brand-logo {
             max-width: 75px;
             height: auto;
@@ -337,29 +336,50 @@
             margin-bottom: 20px;
         }
 
-        /* ওয়ান-লাইন অফিশিয়াল ট্রানজ্যাকশন স্টেমেন্ট */
+        /* 🛠️ ফিক্সড ও স্ট্রাকচার্ড অফিশিয়াল ট্রানজ্যাকশন স্টেটমেন্ট কার্ড */
         .official-delivery-statement {
             background-color: #F0FDF4;
             border: 1px solid #BBF7D0;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 13px;
             color: #166534;
             text-align: left;
             margin-bottom: 15px;
-            line-height: 1.6;
-            overflow-wrap: break-word;
+            box-shadow: inset 0 0 10px rgba(21, 128, 61, 0.02);
+        }
+
+        .statement-title {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #14532D;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #BBF7D0;
+            padding-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .statement-row {
+            margin-bottom: 6px;
+            line-height: 1.5;
+            display: block;
         }
         
-        /* ডেলিভারি মেসেজের ভেতর প্রোডাক্ট নাম হাইলাইট ক্লাস */
+        .statement-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* প্রোডাক্ট হাইলাইট ব্যাজ ফিক্স (গিটহাব সেফ রেন্ডারিং) */
         .highlighted-product-title {
             color: #047857;
             font-weight: 800;
             background-color: #D1FAE5;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-style: normal;
+            padding: 3px 8px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 2px 0;
+            line-height: 1.3;
         }
 
         /* ওয়েবসাইট প্রোমোশন বক্স */
@@ -497,7 +517,7 @@
             </div>
 
             <div class="receipt-header">
-                <!-- 📸 অফিশিয়াল লোগো (গিটহাব পেজেস লাইভ সার্ভারে ক্যাচ করার জন্য সচল করা হলো) -->
+                <!-- 📸 অফিশিয়াল লোগো (কেস-সেন্সিটিভিটি অটো ফিক্স সহ) -->
                 <img src="Logo.png" id="receiptLogoImg" alt="English Spur Logo" class="brand-logo" onerror="this.src='Logo.png'; this.onerror=function(){this.src='logo.PNG'; this.onerror=function(){this.src='Logo.PNG'; this.onerror=null;};};">
                 
                 <h2><span class="b-blue">ENGLISH</span> <span class="b-orange">SPUR</span></h2>
@@ -539,7 +559,7 @@
                 <span style="color: var(--logo-blue);">₹<span id="lblTotalAmount">0</span></span>
             </div>
 
-            <!-- কথায় ও ট্রানজ্যাকশন স্টেমেন্ট বক্স -->
+            <!-- স্ট্রাকচার্ড ট্রানজ্যাকশন স্টেটমেন্ট কার্ড কন্টেইনার -->
             <div class="official-delivery-statement" id="lblDeliveryStatement"></div>
 
             <!-- ওয়েবসাইট প্রোমোশন বক্স -->
@@ -586,7 +606,6 @@
             return str.trim() + ' Rupees Only';
         }
 
-        // ফর্ম ফাইলে নতুন রো যুক্ত করার লজিক
         function addNewInputRow() {
             const container = document.getElementById('dynamicItemRowsContainer');
             const newRow = document.createElement('div');
@@ -600,7 +619,6 @@
             container.appendChild(newRow);
         }
 
-        // ফর্ম ফাইল থেকে রো মুছে ফেলার লজিক
         function removeInputRow(button) {
             const rows = document.querySelectorAll('.item-input-row');
             if(rows.length > 1) {
@@ -611,7 +629,6 @@
             }
         }
 
-        // লাইভ ফর্ম অটো-ক্যালকুলেশন ট্র্যাকার
         function calculateDynamicTotal() {
             const itemRows = document.querySelectorAll('.item-input-row');
             let grandTotal = 0;
@@ -693,7 +710,8 @@
             const amountInWords = numberToWords(grandTotal);
             const uppercaseName = name.toUpperCase();
             
-            const productListStr = productNamesArr.map(pName => `<span class="highlighted-product-title">${pName}</span>`).join(', ');
+            // ট্রানজ্যাকশন মেসেজে প্রোডাক্টগুলোর নাম হাইলাইট করার লজিক (গিটহাব সেফ inline-block)
+            const productListStr = productNamesArr.map(pName => `<span class="highlighted-product-title">${pName}</span>`).join(' + ');
 
             document.getElementById('lblReceiptNo').innerText = autoReceiptNo;
             document.getElementById('lblOrderNo').innerText = orderNo.toUpperCase();
@@ -703,8 +721,15 @@
             document.getElementById('invoiceTableBody').innerHTML = tableBodyHtml;
             document.getElementById('lblTotalAmount').innerText = grandTotal;
 
-            document.getElementById('lblDeliveryStatement').innerHTML = 
-                `<strong>Transaction Confirmation:</strong> An amount of <strong>Rs. ${grandTotal} (${amountInWords})</strong> has been successfully received from <strong>${uppercaseName}</strong> on ${finalDateTime} under Receipt No. <strong>${autoReceiptNo}</strong> against Reference Order No. <strong>${orderNo.toUpperCase()}</strong>. Concurrently, <strong>English Spur</strong> has successfully delivered the requested online digital product(s) [${productListStr}] to the registered contact number <strong>+91 ${cleanPhone}</strong>.`;
+            // 🛠️ রেন্ডারিং এরর ও ঘেঁটে যাওয়া ঠেকাতে সম্পূর্ণ নতুন লজিক্যাল স্ট্রাকচার্ড মেকানিজম
+            document.getElementById('lblDeliveryStatement').innerHTML = `
+                <div class="brand-declaration">
+                    <div class="statement-title"><i class="fa-solid fa-circle-check"></i> Transaction Confirmation</div>
+                    <div class="statement-row">💰 An amount of <strong>Rs. ${grandTotal} (${amountInWords})</strong> has been successfully received from <strong>${uppercaseName}</strong> on ${finalDateTime}.</div>
+                    <div class="statement-row">📄 <strong>Receipt Manifest:</strong> Issued under Registry No. <strong>${autoReceiptNo}</strong> against Reference Memo/Order No. <strong>${orderNo.toUpperCase()}</strong>.</div>
+                    <div class="statement-row">🚀 <strong>Delivery Status:</strong> <strong>English Spur</strong> has successfully delivered the online digital product(s): [ ${productListStr} ] directly to the registered destination contact number <strong>+91 ${cleanPhone}</strong>.</div>
+                </div>
+            `;
 
             document.getElementById('previewContainer').style.display = "block";
             document.getElementById('btnDownload').style.display = "flex";
@@ -713,7 +738,7 @@
             document.getElementById('previewContainer').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // html2canvas ইমেজিং ইঞ্জিন (GitHub Server Safe)
+        // html2canvas ইমেজিং ইঞ্জিন
         function exportReceiptAsImage() {
             const captureArea = document.getElementById('receiptCaptureArea');
             const customerName = document.getElementById('lblCustomerName').innerText;
@@ -731,12 +756,12 @@
                 downloadAnchor.click();
                 document.body.removeChild(downloadAnchor);
             }).catch(err => {
-                alert("Image ডাউনলোড করার সময় সাময়িক ত্রুটি হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন!");
+                alert("ডাউনলোড করার সময় সাময়িক ত্রুটি হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন!");
                 console.error(err);
             });
         }
 
-        // jsPDF পিডিএফ ইঞ্জিন (GitHub Server Safe)
+        // jsPDF পিডিএফ ইঞ্জিন
         function exportReceiptAsPDF() {
             const captureArea = document.getElementById('receiptCaptureArea');
             const customerName = document.getElementById('lblCustomerName').innerText;
@@ -767,7 +792,7 @@
                     heightLeft -= pageHeight;
                 }
 
-                pdf.save(`English_Spur_Receipt_${customerName.replace(/\s+/g, '_')}.pdf`);
+                pdf.save suicide(`English_Spur_Receipt_${customerName.replace(/\s+/g, '_')}.pdf`);
             }).catch(err => {
                 alert("PDF ডাউনলোড করার সময় সাময়িক ত্রুটি হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন!");
                 console.error(err);
