@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
+        /* ===== আপনার পুরোনো CSS ঠিক একই রেখেছি ===== */
         :root {
             --primary: #0B192C;
             --logo-blue: #1E40AF;
@@ -39,7 +40,6 @@
             flex-wrap: wrap;
         }
 
-        /* কন্ট্রোল প্যানেল ফর্ম ডিজাইন */
         .form-container {
             background: #ffffff;
             padding: 25px;
@@ -90,7 +90,6 @@
             border-color: var(--logo-blue);
         }
 
-        /* ডাইনামিক আইটেম ম্যানেজার জোন */
         .dynamic-item-manager {
             background: var(--bg-light);
             padding: 15px;
@@ -158,7 +157,6 @@
         .pdf-btn { background: #8B5CF6; color: white; display: none; }
         .pdf-btn:hover { background: #6D28D9; }
 
-        /* অফিশিয়াল প্রিমিয়াম মানি রসিদ লেআউট - পিওর হোয়াইট বডি */
         .invoice-preview-wrapper {
             background: #ffffff;
             width: 100%;
@@ -242,7 +240,6 @@
             margin-top: 5px;
         }
 
-        /* ওপরে হাইলাইটেড রসিদ নম্বর ব্যাজ */
         .receipt-highlight-badge {
             background: linear-gradient(135deg, var(--badge-dark) 0%, #334155 100%);
             color: #ffffff;
@@ -257,7 +254,6 @@
             text-transform: uppercase;
         }
 
-        /* কাস্টমার মেটা ডাটা ফ্লেক্সবক্স লেআউট */
         .receipt-meta-grid {
             display: flex;
             justify-content: space-between;
@@ -319,49 +315,33 @@
             font-weight: 600;
         }
 
-        /* 📋 Total amount received block padding fix */
-        .total-row-box{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+        .total-row-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #FEF3C7;
+            border: 1px dashed var(--logo-orange);
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-size: 16px;
+            font-weight: 800;
+            color: #9A3412;
+            margin: 18px 0 18px 0;
+        }
 
-    background:#FEF3C7;
-    border:1px dashed var(--logo-orange);
-    border-radius:10px;
-
-    padding:14px 16px;
-
-    font-size:16px;
-    font-weight:800;
-    color:#9A3412;
-
-    margin:18px 0 18px 0;
-}
-
-        /* অফিশিয়াল ট্রানজ্যাকশন স্টেটমেন্ট কার্ড কন্টেইনার - Centered Text layout ফিক্স */
-        .official-delivery-statement{
-
-    background:#F0FDF4;
-    border:1px solid #BBF7D0;
-
-    border-radius:10px;
-
-    padding:18px;
-
-    margin-top:0;
-    margin-bottom:20px;
-
-    text-align:center;
-
-    font-size:13px;
-
-    color:#166534;
-
-    line-height:1.75;
-
-    box-shadow:inset 0 0 10px rgba(21,128,61,.03);
-
-}
+        .official-delivery-statement {
+            background: #F0FDF4;
+            border: 1px solid #BBF7D0;
+            border-radius: 10px;
+            padding: 18px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #166534;
+            line-height: 1.75;
+            box-shadow: inset 0 0 10px rgba(21,128,61,.03);
+        }
 
         .statement-title {
             font-size: 13.5px;
@@ -386,7 +366,6 @@
             margin-bottom: 0;
         }
         
-        /* প্রোডাক্ট হাইলাইট ব্যাজ */
         .highlighted-product-title {
             color: #047857;
             font-weight: 800;
@@ -398,7 +377,6 @@
             line-height: 1.3;
         }
 
-        /* ওয়েবসাইট প্রোমোশন বক্স */
         .website-promo-box {
             background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
             border: 2px solid #FDBA74;
@@ -430,7 +408,6 @@
             border: 1px solid #EA580C;
         }
 
-        /* অ্যান্টি-পাইরেসি এবং আইনি নোটিশ বক্স */
         .piracy-warning-box {
             background-color: #FFF5F5;
             border-left: 4px solid var(--danger);
@@ -439,7 +416,7 @@
             font-size: 11px;
             font-weight: 600;
             color: #C53030;
-            text-align: center; /* Left theke center kora holo */
+            text-align: center;
             margin-bottom: 20px;
             line-height: 1.5;
         }
@@ -479,10 +456,29 @@
             letter-spacing: 1px;
             font-weight: 600;
         }
+
+        /* ===== প্রিন্টের জন্য CSS (এডিশনাল) ===== */
+        @media print {
+            body { background: white; padding: 0; }
+            .form-container { display: none; }
+            .invoice-preview-wrapper { 
+                display: block !important; 
+                box-shadow: none;
+                border: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            #receiptCaptureArea {
+                border: none;
+                padding: 20px;
+            }
+            .download-btn, .pdf-btn, .gen-btn { display: none !important; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- ===== ফর্ম কন্টেইনার (আপনার পুরোনো HTML ঠিক একই) ===== -->
     <div class="form-container">
         <h3><i class="fa-solid fa-sliders"></i> Receipt Panel</h3>
 
@@ -521,6 +517,7 @@
         <button class="action-btn pdf-btn" id="btnPdfDownload" onclick="exportReceiptAsPDF()"><i class="fa-solid fa-file-pdf"></i> Save Receipt PDF</button>
     </div>
 
+    <!-- ===== প্রিভিউ কন্টেইনার (আপনার পুরোনো HTML ঠিক একই) ===== -->
     <div class="invoice-preview-wrapper" id="previewContainer">
         <div id="receiptCaptureArea">
             
@@ -595,7 +592,10 @@
     </div>
 
     <script>
-        // সংখ্যা থেকে কথায় (Numbers to Words)
+        // ============================================================
+        //  আপনার পুরোনো JavaScript ফাংশন (অপরিবর্তিত)
+        // ============================================================
+        
         function numberToWords(num) {
             const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
             const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
@@ -741,172 +741,52 @@
             document.getElementById('previewContainer').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // html2canvas ইমেজিং ইঞ্জিন
-        function exportReceiptAsPDF() {
-
-    const captureArea=document.getElementById("receiptCaptureArea");
-
-    const customerName=document.getElementById("lblCustomerName").innerText.trim();
-
-    html2canvas(captureArea,{
-
-        scale:3,
-
-        useCORS:true,
-
-        allowTaint:false,
-
-        logging:false,
-
-        backgroundColor:"#ffffff",
-
-        scrollX:0,
-
-        scrollY:0,
-
-        windowWidth:captureArea.scrollWidth,
-
-        windowHeight:captureArea.scrollHeight
-
-    }).then(canvas=>{
-
-        const {jsPDF}=window.jspdf;
-
-        const pdf=new jsPDF({
-
-            orientation:"portrait",
-
-            unit:"mm",
-
-            format:"a4",
-
-            compress:true
-
-        });
-
-        const pageWidth=pdf.internal.pageSize.getWidth();
-
-        const pageHeight=pdf.internal.pageSize.getHeight();
-
-        const margin=10;
-
-        const printableWidth=pageWidth-(margin*2);
-
-        const printableHeight=pageHeight-(margin*2);
-
-        const imgWidth=printableWidth;
-
-        const imgHeight=(canvas.height*imgWidth)/canvas.width;
-
-        const imgData=canvas.toDataURL("image/jpeg",1.0);
-
-        if(imgHeight<=printableHeight){
-
-            const x=(pageWidth-imgWidth)/2;
-
-            pdf.addImage(
-
-                imgData,
-
-                "JPEG",
-
-                x,
-
-                margin,
-
-                imgWidth,
-
-                imgHeight,
-
-                "",
-
-                "FAST"
-
-            );
-
-        }
-
-        else{
-
-            let heightLeft=imgHeight;
-
-            let position=margin;
-
-            const x=(pageWidth-imgWidth)/2;
-
-            pdf.addImage(
-
-                imgData,
-
-                "JPEG",
-
-                x,
-
-                position,
-
-                imgWidth,
-
-                imgHeight,
-
-                "",
-
-                "FAST"
-
-            );
-
-            heightLeft-=printableHeight;
-
-            while(heightLeft>0){
-
-                position=heightLeft-imgHeight+margin;
-
-                pdf.addPage();
-
-                pdf.addImage(
-
-                    imgData,
-
-                    "JPEG",
-
-                    x,
-
-                    position,
-
-                    imgWidth,
-
-                    imgHeight,
-
-                    "",
-
-                    "FAST"
-
-                );
-
-                heightLeft-=printableHeight;
-
-            }
-
-        }
-
-        pdf.save(`English_Spur_Receipt_${customerName.replace(/\s+/g,"_")}.pdf`);
-
-    });
-
-}
-
-        // 🏆 jsPDF ২-পেজ মেকানিজম এবং ডুপ্লিকেট-ফ্রি ক্রপিং ইঞ্জিন ফিক্স (CORS & Layout Sync)
-        function exportReceiptAsPDF() {
+        // ============================================================
+        //  🔥 ফিক্সড ইমেজ এক্সপোর্ট ফাংশন (আপডেটেড)
+        // ============================================================
+        function exportReceiptAsImage() {
             const captureArea = document.getElementById('receiptCaptureArea');
-            const customerName = document.getElementById('lblCustomerName').innerText;
+            const customerName = document.getElementById('lblCustomerName').innerText.trim() || 'Receipt';
             
-            const targetWidth = 580;
-            const targetHeight = captureArea.scrollHeight;
-
-            html2canvas(captureArea, { 
-                scale: 2, 
+            html2canvas(captureArea, {
+                scale: 3,
                 useCORS: true,
                 allowTaint: false,
                 logging: false,
+                backgroundColor: '#ffffff',
+                width: captureArea.scrollWidth,
+                height: captureArea.scrollHeight,
+                windowWidth: captureArea.scrollWidth,
+                windowHeight: captureArea.scrollHeight
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `English_Spur_Receipt_${customerName.replace(/[^a-zA-Z0-9]/g, '_')}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }).catch(error => {
+                alert('ইমেজ ডাউনলোড করতে সমস্যা হয়েছে!');
+                console.error(error);
+            });
+        }
+
+        // ============================================================
+        //  🔥 ফিক্সড PDF এক্সপোর্ট ফাংশন (সম্পূর্ণ রিফ্যাক্টর)
+        // ============================================================
+        function exportReceiptAsPDF() {
+            const captureArea = document.getElementById('receiptCaptureArea');
+            const customerName = document.getElementById('lblCustomerName').innerText.trim() || 'Receipt';
+            
+            // এলিমেন্টের রিয়েল ডাইমেনশন
+            const rect = captureArea.getBoundingClientRect();
+            const targetWidth = rect.width || 580;
+            const targetHeight = captureArea.scrollHeight;
+
+            html2canvas(captureArea, {
+                scale: 2.5,
+                useCORS: true,
+                allowTaint: false,
+                logging: false,
+                backgroundColor: '#ffffff',
                 width: targetWidth,
                 height: targetHeight,
                 windowWidth: targetWidth,
@@ -916,49 +796,69 @@
                 scrollX: 0,
                 scrollY: 0
             }).then(canvas => {
-                const imgData = canvas.toDataURL('image/jpeg', 0.85); 
+                const imgData = canvas.toDataURL('image/jpeg', 0.95);
                 const { jsPDF } = window.jspdf;
                 
                 const pdf = new jsPDF('p', 'mm', 'a4');
-                const pdfWidth = 210; 
-                const pdfHeight = 297; 
+                const pdfWidth = 210;
+                const pdfHeight = 297;
+                const margin = 8;
                 
-                const imgWidth = pdfWidth - 10; 
+                const availableWidth = pdfWidth - (margin * 2);
+                const availableHeight = pdfHeight - (margin * 2);
+                
+                const imgWidth = availableWidth;
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
                 
-                const marginLeft = 5;
-                
-                if (imgHeight <= pdfHeight) {
-                    pdf.addImage(imgData, 'JPEG', marginLeft, 5, imgWidth, imgHeight, undefined, 'FAST');
+                // এক পৃষ্ঠায় ফিট হলে
+                if (imgHeight <= availableHeight) {
+                    const x = (pdfWidth - imgWidth) / 2;
+                    const y = (pdfHeight - imgHeight) / 2;
+                    pdf.addImage(imgData, 'JPEG', x, y, imgWidth, imgHeight, undefined, 'FAST');
                 } else {
-                    // গিটহাবের সার্ভারে ডুপ্লিকেট ও কাট-অফ রোধ করার নিখুঁত ২-পেজ মেকানিজম
-                    const pageCanvasHeight = (canvas.width * (pdfHeight - 10)) / imgWidth;
+                    // মাল্টিপেজ - প্রতিটি পৃষ্ঠা আলাদা ক্রপ
+                    const pageHeightPx = (canvas.width * availableHeight) / imgWidth;
+                    let remainingHeight = canvas.height;
+                    let yOffset = 0;
+                    let pageCount = 0;
                     
-                    // ১ম পেজ ক্রপ ও প্রিন্ট লজিক
-                    const canvas1 = document.createElement('canvas');
-                    canvas1.width = canvas.width;
-                    canvas1.height = pageCanvasHeight;
-                    const ctx1 = canvas1.getContext('2d');
-                    ctx1.drawImage(canvas, 0, 0, canvas.width, pageCanvasHeight, 0, 0, canvas.width, pageCanvasHeight);
-                    const imgData1 = canvas1.toDataURL('image/jpeg', 0.85);
-                    pdf.addImage(imgData1, 'JPEG', marginLeft, 5, imgWidth, pdfHeight - 10, undefined, 'FAST');
-                    
-                    // ২য় পেজ ক্রপ ও প্রিন্ট লজিক (বিন্দুমাত্র ডুপ্লিকেট হবে না)
-                    pdf.addPage();
-                    const canvas2 = document.createElement('canvas');
-                    canvas2.width = canvas.width;
-                    canvas2.height = canvas.height - pageCanvasHeight;
-                    const ctx2 = canvas2.getContext('2d');
-                    ctx2.drawImage(canvas, 0, pageCanvasHeight, canvas.width, canvas.height - pageCanvasHeight, 0, 0, canvas.width, canvas.height - pageCanvasHeight);
-                    const imgData2 = canvas2.toDataURL('image/jpeg', 0.85);
-                    const imgHeight2 = ((canvas.height - pageCanvasHeight) * imgWidth) / canvas.width;
-                    pdf.addImage(imgData2, 'JPEG', marginLeft, 5, imgWidth, imgHeight2, undefined, 'FAST');
+                    while (remainingHeight > 0) {
+                        const currentPageHeight = Math.min(pageHeightPx, remainingHeight);
+                        
+                        // টেম্পোরারি ক্যানভাস
+                        const pageCanvas = document.createElement('canvas');
+                        pageCanvas.width = canvas.width;
+                        pageCanvas.height = currentPageHeight;
+                        const ctx = pageCanvas.getContext('2d');
+                        ctx.drawImage(
+                            canvas,
+                            0, yOffset, canvas.width, currentPageHeight,
+                            0, 0, canvas.width, currentPageHeight
+                        );
+                        
+                        const pageImgData = pageCanvas.toDataURL('image/jpeg', 0.92);
+                        const pageImgHeight = (currentPageHeight * imgWidth) / canvas.width;
+                        
+                        if (pageCount > 0) {
+                            pdf.addPage();
+                        }
+                        
+                        const x = (pdfWidth - imgWidth) / 2;
+                        const y = (pdfHeight - pageImgHeight) / 2;
+                        pdf.addImage(pageImgData, 'JPEG', x, y, imgWidth, pageImgHeight, undefined, 'FAST');
+                        
+                        yOffset += currentPageHeight;
+                        remainingHeight -= currentPageHeight;
+                        pageCount++;
+                    }
                 }
                 
-                pdf.save(`English_Spur_Receipt_${customerName.replace(/\s+/g, '_')}.pdf`);
-            }).catch(err => {
-                alert("PDF ডাউনলোড করার সময় সাময়িক ত্রুটি হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন!");
-                console.error(err);
+                const fileName = `English_Spur_Receipt_${customerName.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+                pdf.save(fileName);
+                
+            }).catch(error => {
+                console.error('PDF Export Error:', error);
+                alert('PDF ডাউনলোড করার সময় ত্রুটি হয়েছে! দয়া করে আবার চেষ্টা করুন।');
             });
         }
     </script>
