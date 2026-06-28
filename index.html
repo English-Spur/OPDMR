@@ -767,7 +767,7 @@
             });
         }
 
-        // 🔥 নিখুঁত ২-পেজ ব্রেক এবং আল্ট্রা-কম্প্রেসড পিডিএফ ইঞ্জিন (150KB - 250KB ফিক্স)
+        // 🏆 নিখুঁত ডুপ্লিকেট-ফ্রি এবং আল্ট্রা-কম্প্রেসড ২-পেজ পিডিএফ ইঞ্জিন ফিক্স
         function exportReceiptAsPDF() {
             const captureArea = document.getElementById('receiptCaptureArea');
             const customerName = document.getElementById('lblCustomerName').innerText;
@@ -789,30 +789,45 @@
                 scrollX: 0,
                 scrollY: 0
             }).then(canvas => {
-                const imgData = canvas.toDataURL('image/jpeg', 0.85); // ৮৫% জেপিইজি কম্প্রেশন রেশিও
+                const imgData = canvas.toDataURL('image/jpeg', 0.85); 
                 const { jsPDF } = window.jspdf;
                 
                 const pdf = new jsPDF('p', 'mm', 'a4');
-                const pdfWidth = 210; // A4 width in mm
-                const pdfHeight = 297; // A4 height in mm
+                const pdfWidth = 210; 
+                const pdfHeight = 297; 
                 
-                const imgWidth = pdfWidth - 10; // ৫ মিমি বর্ডার মার্জিন সেফটি
+                const imgWidth = pdfWidth - 10; 
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
                 
                 const marginLeft = 5;
-                let heightLeft = imgHeight;
-                let position = 5; // প্রথম পেজের স্টার্টিং টপ মার্জিন
-
-                // প্রথম পেজ রেন্ডার করা
-                pdf.addImage(imgData, 'JPEG', marginLeft, position, imgWidth, imgHeight, undefined, 'FAST');
-                heightLeft -= (pdfHeight - 10); // মার্জিন বাদ দিয়ে বাকি হাইট ট্র্যাকিং
-
-                // ২য় পেজ ব্রেক লুপ মেকানিজম
-                while (heightLeft > 0) {
-                    position = heightLeft - imgHeight + 5; // পরবর্তী পেজের জন্য কোঅর্ডিনেট শিফটিং
+                
+                // গিটহাবের সার্ভারে ডুপ্লিকেট ও কাট-অফ রোধ করার মাস্টার ক্যালকুলেশন লজিক
+                if (imgHeight <= pdfHeight) {
+                    // যদি রসিদ ১ পেজে ফিট হয়ে যায়
+                    pdf.addImage(imgData, 'JPEG', marginLeft, 5, imgWidth, imgHeight, undefined, 'FAST');
+                } else {
+                    // নিখুঁতভাবে ২ ভাগে ভাগ করে আলাদা পেজে বসানোর রেন্ডারিং ইঞ্জিন
+                    const pageCanvasHeight = (canvas.width * pdfHeight) / imgWidth;
+                    
+                    // ১ম পেজ ক্রপ ও প্রিন্ট লজিক
+                    const canvas1 = document.createElement('canvas');
+                    canvas1.width = canvas.width;
+                    canvas1.height = pageCanvasHeight;
+                    const ctx1 = canvas1.getContext('2d');
+                    ctx1.drawImage(canvas, 0, 0);
+                    const imgData1 = canvas1.toDataURL('image/jpeg', 0.85);
+                    pdf.addImage(imgData1, 'JPEG', marginLeft, 5, imgWidth, pdfHeight - 10, undefined, 'FAST');
+                    
+                    // ২য় পেজ ক্রপ ও প্রিন্ট লজیک (বিন্দুমাত্র ডুপ্লিকেট হবে না)
                     pdf.addPage();
-                    pdf.addImage(imgData, 'JPEG', marginLeft, position, imgWidth, imgHeight, undefined, 'FAST');
-                    heightLeft -= (pdfHeight - 10);
+                    const canvas2 = document.createElement('canvas');
+                    canvas2.width = canvas.width;
+                    canvas2.height = canvas.height - pageCanvasHeight;
+                    const ctx2 = canvas2.getContext('2d');
+                    ctx2.drawImage(canvas, 0, pageCanvasHeight, canvas.width, canvas.height - pageCanvasHeight, 0, 0, canvas.width, canvas.height - pageCanvasHeight);
+                    const imgData2 = canvas2.toDataURL('image/jpeg', 0.85);
+                    const imgHeight2 = ((canvas.height - pageCanvasHeight) * imgWidth) / canvas.width;
+                    pdf.addImage(imgData2, 'JPEG', marginLeft, 5, imgWidth, imgHeight2, undefined, 'FAST');
                 }
                 
                 pdf.save(`English_Spur_Receipt_${customerName.replace(/\s+/g, '_')}.pdf`);
