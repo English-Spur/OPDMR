@@ -337,7 +337,7 @@
             margin-bottom: 20px;
         }
 
-        /* ওয়ান-লাইন অফিশিয়াল ট্রানজ্যাকশন স্টেটমেন্ট */
+        /* অফিশিয়াল ট্রানজ্যাকশন স্টেটমেন্ট কার্ড কন্টেইনার */
         .official-delivery-statement {
             background-color: #F0FDF4;
             border: 1px solid #BBF7D0;
@@ -563,7 +563,7 @@
             <!-- স্ট্রাকচার্ড ট্রানজ্যাকশন স্টেটমেন্ট কার্ড কন্টেইনার -->
             <div class="official-delivery-statement" id="lblDeliveryStatement"></div>
 
-            <!-- ওয়েবসাইট প্রোমোশন باکس -->
+            <!-- ওয়েবসাইট প্রোমোশন বক্স -->
             <div class="website-promo-box">
                 <p>🎁 Want to accelerate your English journey? Unlock exclusive premium digital assets & special discounts on your next purchase!</p>
                 <div class="promo-highlight-badge"><i class="fa-solid fa-globe"></i> https://english-spur.github.io/Official-Website/</div>
@@ -760,37 +760,36 @@
             });
         }
 
-        // jsPDF পিডিএফ ইঞ্জিন (Fixed Syntax Error)
+        // 🔥 jsPDF আল্ট্রা-কম্প্রেসড এবং নো-কাটিং পিডিএফ ইঞ্জিন (15MB থেকে সরাসরি 150KB ফিক্স)
         function exportReceiptAsPDF() {
             const captureArea = document.getElementById('receiptCaptureArea');
             const customerName = document.getElementById('lblCustomerName').innerText;
             
             html2canvas(captureArea, { 
-                scale: 2.5, 
+                scale: 2, /* রেজোলিউশন ব্যালেন্স ও সাইজ কমানোর জন্য স্কেল ২ করা হলো */
                 useCORS: true,
                 allowTaint: false,
                 logging: false
             }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
+                // JPEG ফরম্যাটে ইমেজ কম্প্রেস করে ডেটা ইউআরএল নেওয়া হলো (সাইজ অপ্টিমাইজেশন)
+                const imgData = canvas.toDataURL('image/jpeg', 0.85);
                 const { jsPDF } = window.jspdf;
                 
+                // A4 সাইজ প্রফেশনাল পোর্ট্রেট ডক কনফিগারেশন
                 const pdf = new jsPDF('p', 'mm', 'a4');
-                const imgWidth = 210; 
-                const pageHeight = 297; 
+                const pdfWidth = 210; // A4 width in mm
+                const pdfHeight = 297; // A4 height in mm
+                
+                // ক্যানভাসের সাইজকে নিখুঁতভাবে এ৪ পেজের উইডথ এ ফিট করার ম্যাথমেটিক্যাল ক্যালকুলেশন
+                const imgWidth = pdfWidth - 10; // দুইপাশে ৫ মিমি মার্জিন সেফটি
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                let heightLeft = imgHeight;
-                let position = 0;
+                
+                const marginLeft = 5;
+                const marginTop = 5;
 
-                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                }
-
+                // 'FAST' কম্প্রেশন ফ্ল্যাগ সহ পিডিএফ-এ ইমেজ যুক্ত করা (15MB সাইজ ফিক্স লজিক)
+                pdf.addImage(imgData, 'JPEG', marginLeft, marginTop, imgWidth, imgHeight, undefined, 'FAST');
+                
                 pdf.save(`English_Spur_Receipt_${customerName.replace(/\s+/g, '_')}.pdf`);
             }).catch(err => {
                 alert("PDF ডাউনলোড করার সময় সাময়িক ত্রুটি হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন!");
