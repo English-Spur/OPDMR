@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English Spur - Digital Money Receipt Generator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Guaranteed CDN Resources for html2canvas and jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -320,6 +319,7 @@
             font-weight: 600;
         }
 
+        /* 📋 Total amount received block padding fix */
         .total-row-box {
             display: flex;
             justify-content: space-between;
@@ -331,10 +331,10 @@
             font-size: 16px;
             font-weight: 800;
             color: #9A3412;
-            margin-bottom: 20px;
+            margin-bottom: 45px; /* Margin barano holo jate niche onekta neme jay */
         }
 
-        /* অফিশিয়াল ট্রানজ্যাকশন স্টেটমেন্ট কার্ড কন্টেইনার */
+        /* অফিশিয়াল ট্রানজ্যাকশন স্টেটমেন্ট কার্ড কন্টেইনার - Centered Text layout ফিক্স */
         .official-delivery-statement {
             background-color: #F0FDF4;
             border: 1px solid #BBF7D0;
@@ -342,8 +342,9 @@
             border-radius: 10px;
             font-size: 13px;
             color: #166534;
-            text-align: left;
-            margin-bottom: 15px;
+            text-align: center; /* Left variable theke center kora holo */
+            margin: 0 auto 15px auto;
+            max-width: 100%;
             box-shadow: inset 0 0 10px rgba(21, 128, 61, 0.02);
         }
 
@@ -356,12 +357,14 @@
             padding-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            text-align: center;
         }
 
         .statement-row {
             margin-bottom: 6px;
-            line-height: 1.5;
+            line-height: 1.6;
             display: block;
+            text-align: center;
         }
         
         .statement-row:last-child {
@@ -421,7 +424,7 @@
             font-size: 11px;
             font-weight: 600;
             color: #C53030;
-            text-align: left;
+            text-align: center; /* Left theke center kora holo */
             margin-bottom: 20px;
             line-height: 1.5;
         }
@@ -465,7 +468,6 @@
 </head>
 <body>
 
-    <!-- CONTROL CONFIGURATION INPUT PANEL -->
     <div class="form-container">
         <h3><i class="fa-solid fa-sliders"></i> Receipt Panel</h3>
 
@@ -484,12 +486,10 @@
             <input type="tel" id="inputPhone" class="form-input" placeholder="e.g. 98753 40842" maxlength="12">
         </div>
 
-        <!-- আইটেম যোগ করার ডাইনামিক ম্যানেজার -->
         <div class="form-group">
             <label>Manage Products & Pricing:</label>
             <div class="dynamic-item-manager">
                 <div id="dynamicItemRowsContainer">
-                    <!-- প্রথম ডিফল্ট রো -->
                     <div class="item-input-row">
                         <input type="text" class="form-input item-name" placeholder="Item Name" style="flex: 2;">
                         <input type="number" class="form-input item-price" placeholder="Price" style="flex: 1;" oninput="calculateDynamicTotal()">
@@ -506,7 +506,6 @@
         <button class="action-btn pdf-btn" id="btnPdfDownload" onclick="exportReceiptAsPDF()"><i class="fa-solid fa-file-pdf"></i> Save Receipt PDF</button>
     </div>
 
-    <!-- DIGITAL MONEY RECEIPT PREVIEW RENDER DISPLAY -->
     <div class="invoice-preview-wrapper" id="previewContainer">
         <div id="receiptCaptureArea">
             
@@ -515,7 +514,6 @@
             </div>
 
             <div class="receipt-header">
-                <!-- অফিশিয়াল লোগো -->
                 <img src="Logo.png" id="receiptLogoImg" alt="English Spur Logo" class="brand-logo" onerror="this.src='logo.png'; this.onerror=function(){this.src='logo.PNG'; this.onerror=function(){this.src='Logo.PNG'; this.onerror=null;};};">
                 
                 <h2><span class="b-blue">ENGLISH</span> <span class="b-orange">SPUR</span></h2>
@@ -524,7 +522,6 @@
                 <div class="academy-phone"><i class="fa-solid fa-phone"></i> +91 9875340842</div>
             </div>
 
-            <!-- ওপরে হাইলাইটেড রসিদ নম্বর ব্যাজ (Slate Dark) -->
             <div class="receipt-highlight-badge">
                 <i class="fa-solid fa-receipt"></i> Receipt No: <span id="lblReceiptNo">-</span>
             </div>
@@ -557,16 +554,13 @@
                 <span style="color: var(--logo-blue);">₹<span id="lblTotalAmount">0</span></span>
             </div>
 
-            <!-- স্ট্রাকচার্ড ট্রানজ্যাকশন স্টেটমেন্ট কার্ড কন্টেইনার -->
             <div class="official-delivery-statement" id="lblDeliveryStatement"></div>
 
-            <!-- ওয়েবসাইট প্রোমোশন বক্স -->
             <div class="website-promo-box">
                 <p>🎁 Want to accelerate your English journey? Unlock exclusive premium digital assets & special discounts on your next purchase!</p>
                 <div class="promo-highlight-badge"><i class="fa-solid fa-globe"></i> https://english-spur.github.io/Official-Website/</div>
             </div>
 
-            <!-- আইনি অ্যান্টি-পাইরেসি নোটিশ -->
             <div class="piracy-warning-box">
                 <strong>🚫 Piracy Warning & Legal Notice:</strong> This digital product is licensed exclusively to the registered buyer. Sharing, distributing, or reselling this material with anyone else is strictly prohibited. Unauthorized sharing constitutes an illegal offense under copyright law and will lead to immediate cancellation of access and legal action.
             </div>
@@ -575,7 +569,6 @@
                 <i class="fa-solid fa-circle-check"></i> System generated money receipt. Signature not required.
             </div>
 
-            <!-- থ্যাঙ্ক ইউ নোট -->
             <div class="thank-you-note">
                 <i class="fa-solid fa-heart"></i> Thank You for Choosing English Spur!
             </div>
@@ -587,7 +580,7 @@
     </div>
 
     <script>
-        // संख्या से शब्दों में (Numbers to Words)
+        // সংখ্যা থেকে কথায় (Numbers to Words)
         function numberToWords(num) {
             const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
             const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
@@ -767,7 +760,7 @@
             });
         }
 
-        // 🏆 নিখুঁত ডুপ্লিকেট-ফ্রি এবং আল্ট্রা-কম্প্রেসড ২-পেজ পিডিএফ ইঞ্জিন ফিক্স
+        // 🏆 নিখুঁত ডুপ্লিকেট-ফ্রি এবং আল্ট্রা-কম্প্রেসড ২-পেজ পিডিএফ ইঞ্জিন ফিক্স (CORS & Layout Sync)
         function exportReceiptAsPDF() {
             const captureArea = document.getElementById('receiptCaptureArea');
             const customerName = document.getElementById('lblCustomerName').innerText;
@@ -801,24 +794,22 @@
                 
                 const marginLeft = 5;
                 
-                // গিটহাবের সার্ভারে ডুপ্লিকেট ও কাট-অফ রোধ করার মাস্টার ক্যালকুলেশন লজিক
                 if (imgHeight <= pdfHeight) {
-                    // যদি রসিদ ১ পেজে ফিট হয়ে যায়
                     pdf.addImage(imgData, 'JPEG', marginLeft, 5, imgWidth, imgHeight, undefined, 'FAST');
                 } else {
-                    // নিখুঁতভাবে ২ ভাগে ভাগ করে আলাদা পেজে বসানোর রেন্ডারিং ইঞ্জিন
-                    const pageCanvasHeight = (canvas.width * pdfHeight) / imgWidth;
+                    // গিটহাবের সার্ভারে ডুপ্লিকেট ও কাট-অফ রোধ করার নিখুঁত ২-পেজ মেকানিজম
+                    const pageCanvasHeight = (canvas.width * (pdfHeight - 10)) / imgWidth;
                     
                     // ১ম পেজ ক্রপ ও প্রিন্ট লজিক
                     const canvas1 = document.createElement('canvas');
                     canvas1.width = canvas.width;
                     canvas1.height = pageCanvasHeight;
                     const ctx1 = canvas1.getContext('2d');
-                    ctx1.drawImage(canvas, 0, 0);
+                    ctx1.drawImage(canvas, 0, 0, canvas.width, pageCanvasHeight, 0, 0, canvas.width, pageCanvasHeight);
                     const imgData1 = canvas1.toDataURL('image/jpeg', 0.85);
                     pdf.addImage(imgData1, 'JPEG', marginLeft, 5, imgWidth, pdfHeight - 10, undefined, 'FAST');
                     
-                    // ২য় পেজ ক্রপ ও প্রিন্ট লজیک (বিন্দুমাত্র ডুপ্লিকেট হবে না)
+                    // ২য় পেজ ক্রপ ও প্রিন্ট লজিক (বিন্দুমাত্র ডুপ্লিকেট হবে না)
                     pdf.addPage();
                     const canvas2 = document.createElement('canvas');
                     canvas2.width = canvas.width;
