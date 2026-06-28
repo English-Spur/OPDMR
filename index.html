@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English Spur - Digital Money Receipt Generator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- html2canvas for Image and jsPDF for PDF generation -->
+    <!-- Guaranteed CDN Resources for html2canvas and jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -196,6 +196,7 @@
             gap: 6px;
         }
 
+        /* হেডার সেকশন স্পেসিং টিউনিং */
         .receipt-header {
             text-align: center;
             border-bottom: 3px solid var(--logo-orange);
@@ -203,18 +204,21 @@
             margin-bottom: 15px;
         }
 
-        /* ব্র্যান্ড লোগো স্টাইল কন্টেইনার */
+        /* লোগো সাইজ এবং অতিরিক্ত গ্যাপ রিমুভাল ফিক্স */
         .brand-logo {
-            max-width: 90px;
+            max-width: 75px;
             height: auto;
-            margin-bottom: 10px;
+            margin: 0 auto;
+            display: block;
+            padding: 0;
         }
 
         .receipt-header h2 {
             font-size: 28px;
             font-weight: 900;
             letter-spacing: 1px;
-            margin-top: 5px;
+            margin-top: 2px;
+            line-height: 1.2;
         }
         .receipt-header h2 .b-blue { color: var(--logo-blue); }
         .receipt-header h2 .b-orange { color: var(--logo-orange); }
@@ -493,8 +497,8 @@
             </div>
 
             <div class="receipt-header">
-                <!-- 📸 অফিশিয়াল লোগো প্লেসমেন্ট কন্টেইনার -->
-                <img src="logo.png" alt="English Spur Logo" class="brand-logo" onerror="this.style.display='none';">
+                <!-- 📸 অফিশিয়াল লোগো (গিটহাব পেজেস লাইভ সার্ভারে ক্যাচ করার জন্য সচল করা হলো) -->
+                <img src="logo.png" id="receiptLogoImg" alt="English Spur Logo" class="brand-logo" onerror="this.src='Logo.png'; this.onerror=function(){this.src='logo.PNG'; this.onerror=function(){this.src='Logo.PNG'; this.onerror=null;};};">
                 
                 <h2><span class="b-blue">ENGLISH</span> <span class="b-orange">SPUR</span></h2>
                 <div class="academy-sub">Online English Training Academy</div>
@@ -538,7 +542,7 @@
             <!-- কথায় ও ট্রানজ্যাকশন স্টেমেন্ট বক্স -->
             <div class="official-delivery-statement" id="lblDeliveryStatement"></div>
 
-            <!-- ওয়েবসাইট প্রোমোশন বক্স (সম্পূর্ণ অরিজিনাল ইউআরএল টেক্সট মোড) -->
+            <!-- ওয়েবসাইট প্রোমোশন বক্স -->
             <div class="website-promo-box">
                 <p>🎁 Want to accelerate your English journey? Unlock exclusive premium digital assets & special discounts on your next purchase!</p>
                 <div class="promo-highlight-badge"><i class="fa-solid fa-globe"></i> https://english-spur.github.io/Official-Website/</div>
@@ -627,7 +631,6 @@
             const name = document.getElementById('inputName').value.trim();
             const phoneInput = document.getElementById('inputPhone').value.trim();
             
-            // হোয়াটসঅ্যাপ স্পেস ফিল্টারিং
             const cleanPhone = phoneInput.replace(/\s+/g, '');
 
             if(!orderNo) {
@@ -643,7 +646,6 @@
                 return;
             }
 
-            // ডাইনামিক টেবিল রো রিড ও প্রসেসিং
             const itemRows = document.querySelectorAll('.item-input-row');
             let tableBodyHtml = "";
             let grandTotal = 0;
@@ -675,13 +677,11 @@
                 return;
             }
 
-            // স্বয়ংক্রিয় ডেট ও টাইম জেনারেশন লজিক
             const clock = new Date();
             const dateString = clock.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
             const timeString = clock.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             const finalDateTime = `${dateString} at ${timeString}`;
 
-            // সিস্টেমে স্বয়ংক্রিয় রসিদ নম্বর তৈরি (REC-YYYYMMDD-HHMMSS)
             const year = clock.getFullYear();
             const month = String(clock.getMonth() + 1).padStart(2, '0');
             const day = String(clock.getDate()).padStart(2, '0');
@@ -690,14 +690,11 @@
             const seconds = String(clock.getSeconds()).padStart(2, '0');
             const autoReceiptNo = `REC-${year}${month}${day}-${hours}${minutes}${seconds}`;
 
-            // সংখ্যা থেকে কথায় কনভার্ট করা
             const amountInWords = numberToWords(grandTotal);
             const uppercaseName = name.toUpperCase();
             
-            // ট্রানজ্যাকশন মেসেজে প্রোডাক্টগুলোর নাম হাইলাইট করার লজিক
             const productListStr = productNamesArr.map(pName => `<span class="highlighted-product-title">${pName}</span>`).join(', ');
 
-            // টেক্সট রেন্ডারিং সিঙ্ক
             document.getElementById('lblReceiptNo').innerText = autoReceiptNo;
             document.getElementById('lblOrderNo').innerText = orderNo.toUpperCase();
             document.getElementById('lblCustomerName').innerText = uppercaseName;
@@ -706,11 +703,9 @@
             document.getElementById('invoiceTableBody').innerHTML = tableBodyHtml;
             document.getElementById('lblTotalAmount').innerText = grandTotal;
 
-            // কথায় ও ডেলিভারি স্টেমেন্ট ডাইনামিক রেন্ডার
             document.getElementById('lblDeliveryStatement').innerHTML = 
                 `<strong>Transaction Confirmation:</strong> An amount of <strong>Rs. ${grandTotal} (${amountInWords})</strong> has been successfully received from <strong>${uppercaseName}</strong> on ${finalDateTime} under Receipt No. <strong>${autoReceiptNo}</strong> against Reference Order No. <strong>${orderNo.toUpperCase()}</strong>. Concurrently, <strong>English Spur</strong> has successfully delivered the requested online digital product(s) [${productListStr}] to the registered contact number <strong>+91 ${cleanPhone}</strong>.`;
 
-            // ইন্টারফেস ডিসপ্লে ভিউপোর্ট রেডি করা
             document.getElementById('previewContainer').style.display = "block";
             document.getElementById('btnDownload').style.display = "flex";
             document.getElementById('btnPdfDownload').style.display = "flex";
@@ -718,27 +713,40 @@
             document.getElementById('previewContainer').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // html2canvas দিয়ে ইমেজ এক্সপোর্ট ও সেভ
+        // html2canvas ইমেজিং ইঞ্জিন (GitHub Server Safe)
         function exportReceiptAsImage() {
             const captureArea = document.getElementById('receiptCaptureArea');
             const customerName = document.getElementById('lblCustomerName').innerText;
             
-            html2canvas(captureArea, { scale: 2.5, useCORS: true }).then(canvas => {
+            html2canvas(captureArea, { 
+                scale: 2.5, 
+                useCORS: true,
+                allowTaint: false,
+                logging: false 
+            }).then(canvas => {
                 const downloadAnchor = document.createElement('a');
                 downloadAnchor.download = `English_Spur_Receipt_${customerName.replace(/\s+/g, '_')}.png`;
                 downloadAnchor.href = canvas.toDataURL('image/png');
                 document.body.appendChild(downloadAnchor);
                 downloadAnchor.click();
                 document.body.removeChild(downloadAnchor);
+            }).catch(err => {
+                alert("Image ডাউনলোড করার সময় সাময়িক ত্রুটি হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন!");
+                console.error(err);
             });
         }
 
-        // html2canvas + jsPDF দিয়ে প্রফেশনাল PDF ফরম্যাটে এক্সপোর্ট ও সেভ
+        // jsPDF পিডিএফ ইঞ্জিন (GitHub Server Safe)
         function exportReceiptAsPDF() {
             const captureArea = document.getElementById('receiptCaptureArea');
             const customerName = document.getElementById('lblCustomerName').innerText;
             
-            html2canvas(captureArea, { scale: 2.5, useCORS: true }).then(canvas => {
+            html2canvas(captureArea, { 
+                scale: 2.5, 
+                useCORS: true,
+                allowTaint: false,
+                logging: false
+            }).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
                 const { jsPDF } = window.jspdf;
                 
@@ -760,6 +768,9 @@
                 }
 
                 pdf.save(`English_Spur_Receipt_${customerName.replace(/\s+/g, '_')}.pdf`);
+            }).catch(err => {
+                alert("PDF ডাউনলোড করার সময় সাময়িক ত্রুটি হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন!");
+                console.error(err);
             });
         }
     </script>
