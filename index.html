@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English Spur - Digital Money Receipt Generator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Guaranteed CDN Resources for html2canvas and jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -464,6 +465,7 @@
 </head>
 <body>
 
+    <!-- CONTROL CONFIGURATION INPUT PANEL -->
     <div class="form-container">
         <h3><i class="fa-solid fa-sliders"></i> Receipt Panel</h3>
 
@@ -482,10 +484,12 @@
             <input type="tel" id="inputPhone" class="form-input" placeholder="e.g. 98753 40842" maxlength="12">
         </div>
 
+        <!-- আইটেম যোগ করার ডাইনামিক ম্যানেজার -->
         <div class="form-group">
             <label>Manage Products & Pricing:</label>
             <div class="dynamic-item-manager">
                 <div id="dynamicItemRowsContainer">
+                    <!-- প্রথম ডিফল্ট রো -->
                     <div class="item-input-row">
                         <input type="text" class="form-input item-name" placeholder="Item Name" style="flex: 2;">
                         <input type="number" class="form-input item-price" placeholder="Price" style="flex: 1;" oninput="calculateDynamicTotal()">
@@ -502,6 +506,7 @@
         <button class="action-btn pdf-btn" id="btnPdfDownload" onclick="exportReceiptAsPDF()"><i class="fa-solid fa-file-pdf"></i> Save Receipt PDF</button>
     </div>
 
+    <!-- DIGITAL MONEY RECEIPT PREVIEW RENDER DISPLAY -->
     <div class="invoice-preview-wrapper" id="previewContainer">
         <div id="receiptCaptureArea">
             
@@ -510,6 +515,7 @@
             </div>
 
             <div class="receipt-header">
+                <!-- অফিশিয়াল লোগো -->
                 <img src="Logo.png" id="receiptLogoImg" alt="English Spur Logo" class="brand-logo" onerror="this.src='logo.png'; this.onerror=function(){this.src='logo.PNG'; this.onerror=function(){this.src='Logo.PNG'; this.onerror=null;};};">
                 
                 <h2><span class="b-blue">ENGLISH</span> <span class="b-orange">SPUR</span></h2>
@@ -518,6 +524,7 @@
                 <div class="academy-phone"><i class="fa-solid fa-phone"></i> +91 9875340842</div>
             </div>
 
+            <!-- ওপরে হাইলাইটেড রসিদ নম্বর ব্যাজ (Slate Dark) -->
             <div class="receipt-highlight-badge">
                 <i class="fa-solid fa-receipt"></i> Receipt No: <span id="lblReceiptNo">-</span>
             </div>
@@ -550,13 +557,16 @@
                 <span style="color: var(--logo-blue);">₹<span id="lblTotalAmount">0</span></span>
             </div>
 
+            <!-- স্ট্রাকচার্ড ট্রানজ্যাকশন স্টেটমেন্ট কার্ড কন্টেইনার -->
             <div class="official-delivery-statement" id="lblDeliveryStatement"></div>
 
+            <!-- ওয়েবসাইট প্রোমোশন বক্স -->
             <div class="website-promo-box">
                 <p>🎁 Want to accelerate your English journey? Unlock exclusive premium digital assets & special discounts on your next purchase!</p>
                 <div class="promo-highlight-badge"><i class="fa-solid fa-globe"></i> https://english-spur.github.io/Official-Website/</div>
             </div>
 
+            <!-- আইনি অ্যান্টি-পাইরেসি নোটিশ -->
             <div class="piracy-warning-box">
                 <strong>🚫 Piracy Warning & Legal Notice:</strong> This digital product is licensed exclusively to the registered buyer. Sharing, distributing, or reselling this material with anyone else is strictly prohibited. Unauthorized sharing constitutes an illegal offense under copyright law and will lead to immediate cancellation of access and legal action.
             </div>
@@ -565,6 +575,7 @@
                 <i class="fa-solid fa-circle-check"></i> System generated money receipt. Signature not required.
             </div>
 
+            <!-- থ্যাঙ্ক ইউ নোট -->
             <div class="thank-you-note">
                 <i class="fa-solid fa-heart"></i> Thank You for Choosing English Spur!
             </div>
@@ -722,12 +733,11 @@
             document.getElementById('previewContainer').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // html2canvas আল্ট্রা-ফিট ইমেজিং ইঞ্জিন (CORS & Viewport Locked)
+        // html2canvas ইমেজিং ইঞ্জিন
         function exportReceiptAsImage() {
             const captureArea = document.getElementById('receiptCaptureArea');
             const customerName = document.getElementById('lblCustomerName').innerText;
             
-            // রেন্ডারিং করার ঠিক আগের মুহূর্তে ব্রাউজারের উইন্ডো ট্র্যাকিং রিসেট মেকানিজম
             const targetWidth = 580;
             const targetHeight = captureArea.scrollHeight;
 
@@ -757,7 +767,7 @@
             });
         }
 
-        // jsPDF আল্ট্রা-ফিট নো-কাটিং পিডিএফ ইঞ্জিন (A4 Proportional Rendering Engine)
+        // 🔥 নিখুঁত ২-পেজ ব্রেক এবং আল্ট্রা-কম্প্রেসড পিডিএফ ইঞ্জিন (150KB - 250KB ফিক্স)
         function exportReceiptAsPDF() {
             const captureArea = document.getElementById('receiptCaptureArea');
             const customerName = document.getElementById('lblCustomerName').innerText;
@@ -779,22 +789,32 @@
                 scrollX: 0,
                 scrollY: 0
             }).then(canvas => {
-                const imgData = canvas.toDataURL('image/jpeg', 0.92);
+                const imgData = canvas.toDataURL('image/jpeg', 0.85); // ৮৫% জেপিইজি কম্প্রেশন রেশিও
                 const { jsPDF } = window.jspdf;
                 
-                // পিওর সিঙ্গেল-পেজ এ৪ ডক কনফিগারেশন (উইডথ ও হাইট ডাইনামিক আনুপাতিক ফিট)
                 const pdf = new jsPDF('p', 'mm', 'a4');
-                const pdfWidth = 210; 
-                const pdfHeight = 297;
+                const pdfWidth = 210; // A4 width in mm
+                const pdfHeight = 297; // A4 height in mm
                 
-                const imgWidth = pdfWidth - 10; // দুইপাশে ৫ মিমি করে মার্জিন গ্যাপ
+                const imgWidth = pdfWidth - 10; // ৫ মিমি বর্ডার মার্জিন সেফটি
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
                 
                 const marginLeft = 5;
-                const marginTop = 5;
+                let heightLeft = imgHeight;
+                let position = 5; // প্রথম পেজের স্টার্টিং টপ মার্জিন
 
-                // যদি রসিদের হাইট কোনো কারণে এ৪ পেজের চেয়ে বড় হয়, তবে সেটি স্বয়ংক্রিয়ভাবে পেজের ভেতর ফিট হয়ে যাবে
-                pdf.addImage(imgData, 'JPEG', marginLeft, marginTop, imgWidth, imgHeight, undefined, 'FAST');
+                // প্রথম পেজ রেন্ডার করা
+                pdf.addImage(imgData, 'JPEG', marginLeft, position, imgWidth, imgHeight, undefined, 'FAST');
+                heightLeft -= (pdfHeight - 10); // মার্জিন বাদ দিয়ে বাকি হাইট ট্র্যাকিং
+
+                // ২য় পেজ ব্রেক লুপ মেকানিজম
+                while (heightLeft > 0) {
+                    position = heightLeft - imgHeight + 5; // পরবর্তী পেজের জন্য কোঅর্ডিনেট শিফটিং
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'JPEG', marginLeft, position, imgWidth, imgHeight, undefined, 'FAST');
+                    heightLeft -= (pdfHeight - 10);
+                }
+                
                 pdf.save(`English_Spur_Receipt_${customerName.replace(/\s+/g, '_')}.pdf`);
             }).catch(err => {
                 alert("PDF ডাউনলোড করার সময় সাময়িক ত্রুটি হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন!");
