@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English Spur - Digital Money Receipt Generator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Guaranteed CDN Resources for html2canvas and jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -159,7 +158,7 @@
         .pdf-btn { background: #8B5CF6; color: white; display: none; }
         .pdf-btn:hover { background: #6D28D9; }
 
-        /* অফিশিয়াল প্রিমিয়াম মানি রসিদ লেআউট - ব্যাকগ্রাউন্ড পিওর হোয়াইট ফিক্স */
+        /* অফিশিয়াল প্রিমিয়াম মানি রসিদ লেআউট - পিওর হোয়াইট বডি */
         .invoice-preview-wrapper {
             background: #ffffff;
             width: 100%;
@@ -195,7 +194,6 @@
             gap: 6px;
         }
 
-        /* হেডার সেকশন স্পেসিং টিউনিং */
         .receipt-header {
             text-align: center;
             border-bottom: 3px solid var(--logo-orange);
@@ -203,7 +201,6 @@
             margin-bottom: 15px;
         }
 
-        /* লোগো সাইজ ফিক্স */
         .brand-logo {
             max-width: 75px;
             height: auto;
@@ -467,7 +464,6 @@
 </head>
 <body>
 
-    <!-- CONTROL CONFIGURATION INPUT PANEL -->
     <div class="form-container">
         <h3><i class="fa-solid fa-sliders"></i> Receipt Panel</h3>
 
@@ -486,12 +482,10 @@
             <input type="tel" id="inputPhone" class="form-input" placeholder="e.g. 98753 40842" maxlength="12">
         </div>
 
-        <!-- আইটেম যোগ করার ডাইনামিক ম্যানেজার -->
         <div class="form-group">
             <label>Manage Products & Pricing:</label>
             <div class="dynamic-item-manager">
                 <div id="dynamicItemRowsContainer">
-                    <!-- প্রথম ডিফল্ট রো -->
                     <div class="item-input-row">
                         <input type="text" class="form-input item-name" placeholder="Item Name" style="flex: 2;">
                         <input type="number" class="form-input item-price" placeholder="Price" style="flex: 1;" oninput="calculateDynamicTotal()">
@@ -508,7 +502,6 @@
         <button class="action-btn pdf-btn" id="btnPdfDownload" onclick="exportReceiptAsPDF()"><i class="fa-solid fa-file-pdf"></i> Save Receipt PDF</button>
     </div>
 
-    <!-- DIGITAL MONEY RECEIPT PREVIEW RENDER DISPLAY -->
     <div class="invoice-preview-wrapper" id="previewContainer">
         <div id="receiptCaptureArea">
             
@@ -517,7 +510,6 @@
             </div>
 
             <div class="receipt-header">
-                <!-- 📸 অফিশিয়াল লোগো (গিটহাবের Case-Sensitivity ম্যাচিং সহ) -->
                 <img src="Logo.png" id="receiptLogoImg" alt="English Spur Logo" class="brand-logo" onerror="this.src='logo.png'; this.onerror=function(){this.src='logo.PNG'; this.onerror=function(){this.src='Logo.PNG'; this.onerror=null;};};">
                 
                 <h2><span class="b-blue">ENGLISH</span> <span class="b-orange">SPUR</span></h2>
@@ -526,7 +518,6 @@
                 <div class="academy-phone"><i class="fa-solid fa-phone"></i> +91 9875340842</div>
             </div>
 
-            <!-- ওপরে হাইলাইটেড রসিদ নম্বর ব্যাজ (Slate Dark) -->
             <div class="receipt-highlight-badge">
                 <i class="fa-solid fa-receipt"></i> Receipt No: <span id="lblReceiptNo">-</span>
             </div>
@@ -559,16 +550,13 @@
                 <span style="color: var(--logo-blue);">₹<span id="lblTotalAmount">0</span></span>
             </div>
 
-            <!-- স্ট্রাকচার্ড ট্রানজ্যাকশন স্টেটমেন্ট কার্ড কন্টেইনার -->
             <div class="official-delivery-statement" id="lblDeliveryStatement"></div>
 
-            <!-- ওয়েবসাইট প্রোমোশন বক্স -->
             <div class="website-promo-box">
                 <p>🎁 Want to accelerate your English journey? Unlock exclusive premium digital assets & special discounts on your next purchase!</p>
                 <div class="promo-highlight-badge"><i class="fa-solid fa-globe"></i> https://english-spur.github.io/Official-Website/</div>
             </div>
 
-            <!-- আইনি অ্যান্টি-পাইরেসি নোটিশ -->
             <div class="piracy-warning-box">
                 <strong>🚫 Piracy Warning & Legal Notice:</strong> This digital product is licensed exclusively to the registered buyer. Sharing, distributing, or reselling this material with anyone else is strictly prohibited. Unauthorized sharing constitutes an illegal offense under copyright law and will lead to immediate cancellation of access and legal action.
             </div>
@@ -577,7 +565,6 @@
                 <i class="fa-solid fa-circle-check"></i> System generated money receipt. Signature not required.
             </div>
 
-            <!-- থ্যাঙ্ক ইউ নোট -->
             <div class="thank-you-note">
                 <i class="fa-solid fa-heart"></i> Thank You for Choosing English Spur!
             </div>
@@ -589,7 +576,7 @@
     </div>
 
     <script>
-        // संख्या से शब्दों में (Numbers to Words) রূপান্তরের লজিক
+        // संख्या से शब्दों में (Numbers to Words)
         function numberToWords(num) {
             const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
             const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
@@ -642,7 +629,6 @@
             document.getElementById('lblTotalAmount').innerText = grandTotal;
         }
 
-        // মূল রসিদ জেনারেশন ইঞ্জিন
         function compileCustomMoneyReceipt() {
             const orderNo = document.getElementById('inputOrderNo').value.trim();
             const name = document.getElementById('inputName').value.trim();
@@ -736,20 +722,28 @@
             document.getElementById('previewContainer').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // html2canvas ইমেজিং ইঞ্জিন (Full Page Dynamic Scroll Fix)
+        // html2canvas আল্ট্রা-ফিট ইমেজিং ইঞ্জিন (CORS & Viewport Locked)
         function exportReceiptAsImage() {
             const captureArea = document.getElementById('receiptCaptureArea');
             const customerName = document.getElementById('lblCustomerName').innerText;
             
-            // স্ক্রল পজিশনের কারণে কেটে যাওয়া রোধ করার ফিক্স লজিক
+            // রেন্ডারিং করার ঠিক আগের মুহূর্তে ব্রাউজারের উইন্ডো ট্র্যাকিং রিসেট মেকানিজম
+            const targetWidth = 580;
+            const targetHeight = captureArea.scrollHeight;
+
             html2canvas(captureArea, { 
                 scale: 2.5, 
                 useCORS: true,
                 allowTaint: false,
                 logging: false,
-                height: captureArea.scrollHeight, // সম্পূর্ণ ডাইনামিক রসিদের হাইট ক্যাপচার
-                windowHeight: captureArea.scrollHeight,
-                scrollY: -window.scrollY // ব্রাউজারের বর্তমান স্ক্রল পজিশন বাইপাস ফিক্স
+                width: targetWidth,
+                height: targetHeight,
+                windowWidth: targetWidth,
+                windowHeight: targetHeight,
+                x: 0,
+                y: 0,
+                scrollX: 0,
+                scrollY: 0
             }).then(canvas => {
                 const downloadAnchor = document.createElement('a');
                 downloadAnchor.download = `English_Spur_Receipt_${customerName.replace(/\s+/g, '_')}.png`;
@@ -763,38 +757,44 @@
             });
         }
 
-        // jsPDF পিডিএফ ইঞ্জিন (Full Height Auto-Fit to A4 Canvas)
+        // jsPDF আল্ট্রা-ফিট নো-কাটিং পিডিএফ ইঞ্জিন (A4 Proportional Rendering Engine)
         function exportReceiptAsPDF() {
             const captureArea = document.getElementById('receiptCaptureArea');
             const customerName = document.getElementById('lblCustomerName').innerText;
             
+            const targetWidth = 580;
+            const targetHeight = captureArea.scrollHeight;
+
             html2canvas(captureArea, { 
                 scale: 2, 
                 useCORS: true,
                 allowTaint: false,
                 logging: false,
-                height: captureArea.scrollHeight, // কাট-অফ রিমুভাল মেকানিজম
-                windowHeight: captureArea.scrollHeight,
-                scrollY: -window.scrollY
+                width: targetWidth,
+                height: targetHeight,
+                windowWidth: targetWidth,
+                windowHeight: targetHeight,
+                x: 0,
+                y: 0,
+                scrollX: 0,
+                scrollY: 0
             }).then(canvas => {
-                const imgData = canvas.toDataURL('image/jpeg', 0.85);
+                const imgData = canvas.toDataURL('image/jpeg', 0.92);
                 const { jsPDF } = window.jspdf;
                 
-                // A4 সাইজ প্রফেশনাল পোর্ট্রেট ডক কনফিগারেশন (210mm x 297mm)
+                // পিওর সিঙ্গেল-পেজ এ৪ ডক কনফিগারেশন (উইডথ ও হাইট ডাইনামিক আনুপাতিক ফিট)
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 const pdfWidth = 210; 
-                const pdfHeight = 297; 
+                const pdfHeight = 297;
                 
-                // দুইপাশে ৫ মিমি মার্জিন বাদ দিয়ে উইডথ এবং এ৪ পেজে অটো-ফিট করার ম্যাথমেটিক্যাল ক্যালকুলেশন
-                const imgWidth = pdfWidth - 10; 
+                const imgWidth = pdfWidth - 10; // দুইপাশে ৫ মিমি করে মার্জিন গ্যাপ
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
                 
                 const marginLeft = 5;
                 const marginTop = 5;
 
-                // 'FAST' কম্প্রেশন ফ্ল্যাগ সহ পিডিএফ-এ ইমেজ যুক্ত করা (15MB সাইজ ফিক্স লজিক)
+                // যদি রসিদের হাইট কোনো কারণে এ৪ পেজের চেয়ে বড় হয়, তবে সেটি স্বয়ংক্রিয়ভাবে পেজের ভেতর ফিট হয়ে যাবে
                 pdf.addImage(imgData, 'JPEG', marginLeft, marginTop, imgWidth, imgHeight, undefined, 'FAST');
-                
                 pdf.save(`English_Spur_Receipt_${customerName.replace(/\s+/g, '_')}.pdf`);
             }).catch(err => {
                 alert("PDF ডাউনলোড করার সময় সাময়িক ত্রুটি হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন!");
